@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AutoGen基本介绍"
-date: 2024-04-12 17:01:34 -0700
+date: 2024-04-12 15:01:34 -0700
 categories: autogen
 ---
 
