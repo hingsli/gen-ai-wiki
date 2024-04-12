@@ -1,13 +1,16 @@
 ---
 layout: post
-title: "AutoGen基本介绍"
-date: 2024-04-12 15:01:34 -0700
+title: "AutoGen快速上手"
+date: 2024-04-10 15:01:34 -0700
 categories: autogen
 ---
 
-# 1. 简介
+## 1. 简介
 
-## 1. 安装
+AutoGen 是一个旨在简化使用大型语言模型（LLMs）开发应用程序的过程的框架。它基于促进多代理对话的概念，这些代理可以是 LLMs、工具或甚至人类输入，共同工作以执行任务。该框架强调易用性、模块化以及将人类反馈无缝集成到工作流中的能力，使开发人员能够以显著减少的努力和专业知识创建复杂的 LLM 应用。
+本文的代码例子来源于官方文档([Microsoft on GitHub](https://microsoft.github.io/autogen/docs/tutorial/introduction/)) ([Microsoft on GitHub](https://microsoft.github.io/autogen/))。
+
+### 1. 安装
 
 在本地安装 AutoGen 时，推荐使用虚拟环境进行安装，以确保 AutoGen 的依赖项不会与系统中的其他部分冲突。
 
@@ -28,7 +31,7 @@ pip install pyautogen
 
 需要注意的是，如果你安装的是 pyautogen 版本小于 0.2，则需要 openai 版本小于 1。从 pyautogen 版本 0.2 开始，要求 openai 版本必须大于等于 1。
 
-## 2. 代理（Agent）
+### 2. 代理（Agent）
 
 代理（Agent）是一种能够在其环境中与其他代理发送和接收消息的实体。代理可以由模型（如 GPT-4 这样的大型语言模型）、代码执行器（如 IPython 内核）、人类，或这些以及其他可插拔和可自定义组件的组合来驱动。
 
@@ -69,7 +72,7 @@ Why don't scientists trust atoms?
 Because they make up everything!
 ```
 
-## 3. 角色和对话
+### 3. 角色和对话
 
 "Roles" 和 "Conversations" 是用于定义代理如何交互和通信的关键概念。"Roles" 指的是分配给每个代理的特定职责或角色，这些角色定义了代理在对话中的行为方式和它们如何响应其他代理的消息。例如，你可以设置一个代理作为提问者，而另一个代理则作为回答者。
 
@@ -136,14 +139,14 @@ Because it was two-tired!
 --------------------------------------------------------------------------------
 ```
 
-# 2. 如何终止 AutoGen 代理之间的对话
+## 2. 如何终止 AutoGen 代理之间的对话
 
 终止代理间的对话主要有两种方法：
 
 1. **通过初始化聊天时设置参数**：在启动对话时（使用 **`initiate_chat`** 方法），可以设定特定的参数来定义何时结束对话。例如，通过设置 **`max_turns`** 参数来限制对话的回合数，这样对话在达到指定回合后自动终止。
 2. **通过配置代理触发终止**：在定义每个代理时，可以指定让代理根据特定条件自动终止对话。这包括设置如 **`max_consecutive_auto_reply`**（连续自动回复的最大次数）和 **`is_termination_msg`**（是否接收到特定的终止消息）等参数。
 
-## 1. 设置 `initiate_chat` 中的参数
+### 1. 设置 `initiate_chat` 中的参数
 
 以下这段代码创建两个名为 Cathy 和 Joe 的 **`ConversableAgent`** 对象，这两个代理被配置为喜剧双人组的一部分。每个代理都配置了 GPT-4 模型，并且设置了不请求人类输入的模式（**`human_input_mode="NEVER"`**）。
 
@@ -272,7 +275,7 @@ Because he was outstanding in his field!
 
 此处设置对话的最大轮数为3轮，即 **`max_turns=3`**。
 
-## 2. 配置**`max_consecutive_auto_reply`**
+### 2. 配置**`max_consecutive_auto_reply`**
 
 我们创建一个名为 **`joe`** 的 **`ConversableAgent`** 代理，配置了其使用的大型语言模型（LLM）GPT-4，温度参数设置为0.7以调整生成文本的随机性。此外，**`joe`** 被配置为一个喜剧表演者的角色，并设置为不接受人类输入，同时限制了在没有人类干预的情况下连续自动回复的最大次数为1次。
 
@@ -326,7 +329,7 @@ Because it was two-tired!
 --------------------------------------------------------------------------------
 ```
 
-## 3. 使用**`is_termination_msg`**
+### 3. 使用**`is_termination_msg`**
 
 我们可以为 **`joe`** 这个 **`ConversableAgent`** 设置一些参数，包括一个特定的终止对话的条件。这个条件是如果收到的消息中包含 "good bye"，则会终止对话。
 
@@ -360,13 +363,13 @@ GOOD BYE!
 --------------------------------------------------------------------------------
 ```
 
-# 3. 如何在agent间对话中引入人类的干预
+## 3. 如何在agent间对话中引入人类的干预
 
 引入人类干预的主要方式是通过设置 **`ConversableAgent`** 的 **`human_input_mode`** 参数。这个参数支持三种模式：**`NEVER`**（从不请求人类输入）、**`TERMINATE`**（仅在满足终止条件时请求人类输入）、和 **`ALWAYS`**（总是请求人类输入）。这允许代理在需要时包含人类反馈，例如，通过人类输入来引导代理或校正其行为。详细信息可以在 AutoGen 的官方文档中查阅：[Allowing Human Feedback in Agents](https://microsoft.github.io/autogen/docs/tutorial/human-in-the-loop/)。
 
-![Untitled](assets/introduction/Untitled.png)
+![Untitled](assets/autogen-getting-started/Untitled.png)
 
-## 1. 人类输入模式 = `NEVER`
+### 1. 人类输入模式 = `NEVER`
 
 我们创建了两个 **`ConversableAgent`** 代理，用于执行一个猜数字的游戏。其中一个代理 “agent_with_number” 充当游戏主持人，拥有一个数字（53），并指导另一个代理 “agent_guess_number” 来猜测这个数字。如果猜测的数字过高或过低，主持人会相应地反馈。游戏继续进行直到猜中数字，触发对话终止条件。这种设置演示了如何使用 AutoGen 框架来创建交互式的对话游戏。
 
@@ -477,7 +480,7 @@ Is it 53?
 --------------------------------------------------------------------------------
 ```
 
-## 2. 人类输入模式 = `ALWAYS`
+### 2. 人类输入模式 = `ALWAYS`
 
 我们创建一个名为 **`human_proxy`** 的 **`ConversableAgent`**，这个代理被设置为始终请求人类输入，不使用任何语言模型（LLM），主要用于模拟真人参与对话。通过这个代理，我们发起了一次对话，初始猜测数字为10，与之前设置的有数字的代理 **`agent_with_number`** 进行互动。
 
@@ -539,7 +542,7 @@ That's okay! The number I was thinking of was 53.
 --------------------------------------------------------------------------------
 ```
 
-## 3. 人类输入模式 = `TERMINATE`
+### 3. 人类输入模式 = `TERMINATE`
 
 我们配置了两个 **`ConversableAgent`** 以模拟猜数字游戏。**`agent_with_number`** 有一个数字（53）并设置了游戏规则。如果另一个代理 **`agent_guess_number`** 猜测过高或过低，它会相应反馈，并在猜中正确数字时终止对话。**`human_input_mode="TERMINATE"`** 确保在满足特定条件前，人类可以介入游戏。这个设置允许测试代理在有限交互下的表现。
 
@@ -652,7 +655,7 @@ Is it 53?
 --------------------------------------------------------------------------------
 ```
 
-# 4. 代码执行器
+## 4. 代码执行器
 
 "code executor"（代码执行器）是一个特定类型的代理，负责执行其他代理或用户生成的代码。代码执行器可以与代码编写代理进行交互，类似于程序员与代码解释器之间的互动。这种设置使得可以在对话中编写并执行代码，适用于数据分析、机器学习、数学建模等需要动态代码执行的任务。
 
@@ -662,13 +665,13 @@ AutoGen 支持多种类型的代码执行器，包括命令行代码执行器和
 
 | Code Executor (autogen.coding) | Environment | Platform |
 | --- | --- | --- |
-| https://microsoft.github.io/autogen/docs/reference/coding/local_commandline_code_executor#localcommandlinecodeexecutor | Shell | Local |
-| https://microsoft.github.io/autogen/docs/reference/coding/docker_commandline_code_executor#dockercommandlinecodeexecutor | Shell | Docker |
-| https://microsoft.github.io/autogen/docs/reference/coding/jupyter/jupyter_code_executor#jupytercodeexecutor | Jupyter Kernel (e.g., python3) | Local/Docker |
+| LocalCommandLineCodeExecutor | Shell | Local |
+| DockerCommandLineCodeExecutor | Shell | Docker |
+| JupyterCodeExecutor | Jupyter Kernel (e.g., python3) | Local/Docker |
 
-## 1. **`LocalCommandLineCodeExecutor`**
+### 1. **`LocalCommandLineCodeExecutor`**
 
-![Untitled](assets/introduction/Untitled%201.png)
+![Untitled](assets/autogen-getting-started/Untitled%201.png)
 
 验证本节例子前，先安装：
 
@@ -705,7 +708,7 @@ code_executor_agent = ConversableAgent(
 
 然后我们来看看如何使用一个配置了代码执行功能的 `ConversableAgent` 来处理并回复包含 Python 代码块的消息。代码块尝试创建一个散点图并将其保存为图片文件。首先，定义一个包含 Python 代码块的消息字符串，然后将这个消息作为输入传递给 `code_executor_agent` 的 `generate_reply` 方法。该方法处理输入消息，执行其中的代码，并生成一个回复，这个回复可能是代码执行的结果或相关输出。最后，使用 `print` 函数打印出生成的回复。这种方法适用于需要自动处理和执行代码的场景，如自动数据可视化、计算任务等。
 
-```
+````
 message_with_code_block = """This is a message with code block.
 The code block is below:
 ```python
@@ -721,9 +724,11 @@ This is the end of the message.
 """
 
 # 为给定的代码生成回复
+
+```
 reply = code_executor_agent.generate_reply(messages=[{"role": "user", "content": message_with_code_block}])
 print(reply)
-```
+````
 
 ```
 
@@ -756,9 +761,9 @@ print(os.listdir(temp_dir.name))  # 打印临时目录中的文件列表
 temp_dir.cleanup()
 ```
 
-## 2. 在Docker中执行
+### 2. 在Docker中执行
 
-![Untitled](assets/introduction/Untitled%202.png)
+![Untitled](assets/autogen-getting-started/Untitled%202.png)
 
 在本小节中，我们来看看如何在 AutoGen 框架中配置和使用 Docker 命令行代码执行器。
 
@@ -792,9 +797,9 @@ code_executor_agent_using_docker = ConversableAgent(
 
 ```
 
-## 3. 在对话中使用代码执行器
+### 3. 在对话中使用代码执行器
 
-![Untitled](assets/introduction/Untitled%203.png)
+![Untitled](assets/autogen-getting-started/Untitled%203.png)
 
 我们定义一个名为 **`code_writer_agent`** 的 **`ConversableAgent`**，它被设定为一个帮助解决任务的智能助理。这个代理专门用于编写并建议执行代码（Python或Shell脚本），以解决用户面对的问题。系统消息详细说明了代理如何指导任务的解决，包括信息收集、任务执行、错误处理和结果验证等步骤。此外，代理被配置为不执行代码，侧重于生成和建议代码。这样的设置使得代理可以安全地用于环境中，引导用户或其他代理执行代码，同时确保代码的正确性和完整性。
 
@@ -834,7 +839,7 @@ chat_result = code_executor_agent.initiate_chat(
 
 ```
 
-```
+````
 code_executor_agent (to code_writer_agent):
 
 Write Python code to calculate the 14th Fibonacci number.
@@ -890,7 +895,7 @@ I hope this meets your expectations. If you have any other concerns or need furt
 TERMINATE
 
 --------------------------------------------------------------------------------
-```
+````
 
 我们可以使用  **`code_executor_agent`** 向 **`code_writer_agent`** 发起请求，生成绘制特斯拉和Meta年度股价增长的Python代码。
 
@@ -907,7 +912,7 @@ chat_result = code_executor_agent.initiate_chat(
 
 ```
 
-```
+````
 code_executor_agent (to code_writer_agent):
 
 Today is 2024-02-28. Write Python code to plot TSLA's and META's stock price gains YTD, and save the plot to a file named 'stock_gains.png'.
@@ -1030,7 +1035,7 @@ Please make sure to verify this image file. It should contain two plotted lines,
 TERMINATE
 
 --------------------------------------------------------------------------------
-```
+````
 
 显示这张图像：
 
@@ -1041,7 +1046,7 @@ Image(os.path.join(temp_dir, "stock_gains.png"))  # 使用Image类显示指定�
 
 ```
 
-![Untitled](assets/introduction/Untitled%204.png)
+![Untitled](assets/autogen-getting-started/Untitled%204.png)
 
 清除临时文件夹：
 
@@ -1055,7 +1060,7 @@ temp_dir.cleanup()
 executor.stop()  
 ```
 
-## 4. 命令行代码执行器 VS Jupyter 代码执行器
+### 4. 命令行代码执行器 VS Jupyter 代码执行器
 
 选择使用命令行代码执行器还是 Jupyter 代码执行器取决于你的代码块的特性和需求：
 
@@ -1064,7 +1069,7 @@ executor.stop()
 
 所以，你的选择应基于代码执行的具体需求：是否需要状态持久化，以及是否每个代码块都可以独立执行而不依赖之前的状态。如果你的应用场景需要快速执行并频繁重启或不需状态保持，命令行执行器可能更适合。如果需要长时间运行且依赖之前的计算结果，Jupyter 执行器将是更好的选择。
 
-# 5. 工具（Tool Use）
+## 5. 工具（Tool Use）
 
 "Tool Use" 指的是在多代理对话中，代理能够使用各种工具来执行特定的任务。这些工具可以是函数、代码执行器，或者其他可以通过 AutoGen 注册并调用的资源。代理可以通过这些工具来增强它们的功能性，比如进行信息检索、执行计算任务或者其他需要特定能力的操作。
 
@@ -1074,7 +1079,7 @@ executor.stop()
 2. **工具的调用**：一旦注册，代理可以在对话中根据需要调用这些工具来执行任务。例如，代理可以使用代码执行工具来运行代码块，或者使用函数工具来处理数据。
 3. **多代理协作**：在复杂的工作流中，不同的代理可能需要使用不同的工具来协作完成任务。AutoGen 支持通过工具使用来促进这种类型的多代理协作，例如在对话中集成人类输入或其他代理的反馈。
 
-## 1. 工具的注册
+### 1. 工具的注册
 
 下面的例子涉及创建和配置两个 **`ConversableAgent`**，一个作为助手，另一个作为用户代理。助手代理被设定为帮助执行简单计算，并在完成任务后返回“TERMINATE”。用户代理则用于与助手代理交互并执行建议的工具调用。
 
@@ -1128,7 +1133,7 @@ register_function(
 
 ```
 
-## 2. 工具的调用
+### 2. 工具的调用
 
 注册好工具后，就可以使用工具：
 
@@ -1252,17 +1257,17 @@ TERMINATE
 --------------------------------------------------------------------------------
 ```
 
-# 6. 对话模式（Conversation Patterns）
+## 6. 对话模式（Conversation Patterns）
 
 "Conversation Patterns" 是指定义代理间如何交互的模式。这些模式可以包括简单的一对一对话、顺序对话，以及更复杂的群组对话。群组对话允许多个代理共享同一对话线程并贡献信息，非常适合需要多代理协作的任务。管理群组对话的机制包括轮流选择发言代理，可以是随机的、轮流的或手动选择的。这种模式增强了代理间的协作与任务处理能力 ([Microsoft on GitHub](https://microsoft.github.io/autogen/docs/tutorial/conversation-patterns/))。
 
-## 1. **Two-Agent Chat**
+### 1. **Two-Agent Chat**
 
 "Two-Agent Chat" 指的是两个代理之间的对话系统，这种设置通常包含一个助理代理和一个执行者代理。助理代理负责提出和优化代码或解决方案，而执行者代理则执行生成的代码或动作，并将结果反馈回来。这种模式使得可以将任务分解成独立的提议和执行部分，提高了处理的灵活性和效率。
 
 Two-Agent Chat 是一种基本的对话模式，为复杂的多代理对话提供了基础。在这种模式下，两个代理协作解决问题，例如代码生成或问题回答，这通常遵循在 AutoGen 中定义的明确的对话和交互规则。
 
-![Untitled](assets/introduction/Untitled%205.png)
+![Untitled](assets/autogen-getting-started/Untitled%205.png)
 
 设置并使用两个 **`ConversableAgent`**：一个模拟学生，另一个模拟数学老师。学生代理被设定为有学习意愿的角色，老师代理则被设定为数学教师。通过这种配置，学生代理能够向老师代理提出问题（例如询问三角不等式的定义），并通过对话获取信息。
 
@@ -1428,7 +1433,7 @@ pprint.pprint(chat_result.cost)  # 美化打印chat_result对象中的聊天成�
  {'total_cost': 0})
 ```
 
-## 2. **Sequential Chat**
+### 2. **Sequential Chat**
 
 "Sequential Chats" 指的是一系列预定的对话，这些对话按顺序进行，每个对话处理不同的任务或问题。这种对话模式允许多个代理交替进行，每个代理在对话中承担特定的角色，完成特定的任务。这样的设置特别适合于需要多步骤处理或多个问题解决的场景。
 
@@ -1436,7 +1441,7 @@ pprint.pprint(chat_result.cost)  # 美化打印chat_result对象中的聊天成�
 
 更多关于 Sequential Chats 的信息：[AutoGen Documentation on Sequential Chats](https://microsoft.github.io/autogen/docs/tags/sequential-chats/)。
 
-![Untitled](assets/introduction/Untitled%206.png)
+![Untitled](assets/autogen-getting-started/Untitled%206.png)
 
 我们创建了五个不同的 **`ConversableAgent`** 实例，每个代理都专注于一种简单的数学运算。这些代理分别是：返回给定数字的“Number_Agent”、将数字加1的“Adder_Agent”、将数字乘以2的“Multiplier_Agent”、将数字减1的“Subtracter_Agent”和将数字除以2的“Divider_Agent”。每个代理都配置了 GPT-4 模型以进行计算，但设置为不接受人类输入，完全自动化处理数学运算任务。这种设计可以在模拟或教学环境中用于展示基础数学运算的自动化处理。
 
@@ -1687,7 +1692,7 @@ Fourth Chat Summary:  4
 15.5
 ```
 
-## 3. 群组对话（Group Chat）
+### 3. 群组对话（Group Chat）
 
 "Group Chat" 指的是由多个代理参与的群组对话系统，这些代理可以是基于大型语言模型（LLM）、工具或人类的智能代理。群组对话允许这些代理通过自动化的聊天来集体执行任务，提高了任务处理的协同性和效率。
 
@@ -1698,7 +1703,7 @@ Fourth Chat Summary:  4
 - **任务分配**：在群组对话中，不同的代理可以承担不同的角色或任务，根据他们的专长和功能来分工协作。
 - **集成工具和人类输入**：群组聊天支持将工具使用和人类参与融入对话中，这使得代理能够执行更复杂的任务，并且能够更灵活地适应各种情境。
 
-![Untitled](assets/introduction/Untitled%207.png)
+![Untitled](assets/autogen-getting-started/Untitled%207.png)
 
 群组聊天由一个特殊的代理类型“群组聊天管理器”（GroupChatManager）来协调。在群组聊天的第一步，群组聊天管理器选择一个代理进行发言。被选中的代理发言后，消息会被发送回群组聊天管理器，然后由其广播给群组中的所有其他代理。这个过程会重复进行，直到对话结束。
 
@@ -1824,7 +1829,6 @@ Fourth Chat Summary:  4
     
     在这背后，群组聊天管理器会在群组聊天开始之前向所有代理发送一条消息，这条消息包含了所有代理的名称和描述。这种介绍机制有助于建立更好的代理协作环境，因为每个代理在开始任务前都能了解彼此的功能和角色，从而提高整个群组聊天的效率和协同工作的效果。
     
-    <aside>
     💡 **群组聊天可以作为序列聊天中的一部分**
     
     以下代码演示了如何使用群组聊天管理器作为两代理聊天序列中的一方代理进行对话。在这种设置中，数字代理 **`number_agent`** 向群组聊天管理器 **`group_chat_manager_with_intros`** 发起两次聊天请求。首先，数字代理请求将数字3转换成13，随后请求将一个数字转换成32。这里的群组聊天管理器作为一个普通代理参与到聊天中，并且管理来自不同代理的操作，以实现目标数字的转换。
@@ -1936,7 +1940,6 @@ Fourth Chat Summary:  4
     --------------------------------------------------------------------------------
     ```
     
-    </aside>
     
     群组聊天是一种强大的对话模式，但当参与的代理数量较大时，控制对话可能会变得复杂。为了解决这一问题，AutoGen 提供了一种方法来限制下一个发言者的选择，即通过使用 **`GroupChat`** 类中的 **`allowed_or_disallowed_speaker_transitions`** 参数。
     
@@ -2047,13 +2050,13 @@ Fourth Chat Summary:  4
     --------------------------------------------------------------------------------
     ```
     
-    ## 4. 嵌套聊天（Nested Chat）
+    ### 4. 嵌套聊天（Nested Chat）
     
     "Nested Chats" 指的是在一个主对话中嵌套一个或多个子对话的结构。这允许代理在响应发起代理的消息之前，先与其他代理进行一系列的交流。嵌套聊天使得代理可以利用其他代理作为它们的内部独白，以增强决策过程或解决复杂问题。
     
     嵌套聊天由“嵌套聊天处理器”（nested chats handler）控制，这是一个可以插拔的组件，属于 **`ConversableAgent`**。当一个消息被接收时，嵌套聊天处理器会触发一系列的嵌套聊天。这些嵌套聊天会在接收代理回复发送代理的消息之前完成，从而允许在不暴露内部对话的情况下增强代理的响应。
     
-    ![Untitled](assets/introduction/Untitled%208.png)
+    ![Untitled](assets/autogen-getting-started/Untitled%208.png)
     
     我们创建三个不同功能的 **`ConversableAgent`**。
     
@@ -2137,7 +2140,7 @@ Fourth Chat Summary:  4
     )
     ```
     
-    ```
+    ````
     
     >>>>>>>> NO HUMAN INPUT RECEIVED.
     
@@ -2295,4 +2298,4 @@ Fourth Chat Summary:  4
     Cutting through ambiguity, like a razor-sharp knife.
     
     --------------------------------------------------------------------------------
-    ```
+    ````

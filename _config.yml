@@ -19,7 +19,7 @@ title: GenAI 资料库 # the main title
 tagline: 探索 LLMs 中 multi-agent 的可能性 # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  以后再写
+  这是一个专注于生成式人工智能技术的网站，特别关注于大型语言模型（LLM）和multi-agent系统。我们提供对当前领先技术的相关教程，如Autogen、CrewAI、LangChain、以及Stable Diffusion等，探讨这些技术在各种场景下的应用潜力。
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
