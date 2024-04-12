@@ -14,7 +14,7 @@ timezone: Asia/Shanghai
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: AutoGen 教程 # the main title
+title: GenAI 资料库 # the main title
 
 tagline: 探索 LLMs 中 multi-agent 的可能性 # it will display as the sub-title
 
@@ -37,7 +37,6 @@ social:
   links:
     # The first element serves as the copyright owner's link
     - https://github.com/hingsli # change to your github homepage
-    - https://twitter.com/username # change to your twitter homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
@@ -124,7 +123,7 @@ pwa:
 paginate: 10
 
 # The base URL of your site
-baseurl: "/autogen-tutorial"
+baseurl: "/gen-ai-wiki"
 
 # ------------ The following options are not recommended to be modified ------------------
 
